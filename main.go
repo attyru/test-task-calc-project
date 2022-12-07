@@ -5,29 +5,30 @@ import (
 	"regexp"
 	"strings"
 	// "math"
+	"bufio"
 	"os"
 )
 
 func main() {
 
 	//var res float64
-	var a string
-
 	fmt.Print("Введите входные данные: ")
-	fmt.Scanln(&a)
 
+	reader := bufio.NewReader(os.Stdin)
+	a, _ := reader.ReadString('\n')
+	a = strings.TrimSuffix(a, "\n")
+  
 	a = strings.ReplaceAll(a, " ", "")
-	
+	  
 	// проверка на недопустимые символы
 	matched, _ := regexp.MatchString(`[^0-9,^\+,^\-,^\*,^\/,I,V,X,\ ]`, a)
-
+  
 	if matched {
-		// ошибка
-		fmt.Println("Строка не является математической операцией. Работа приложения завершена.")
-		os.Exit(1)
+	  fmt.Println("Строка не является математической операцией. Работа приложения завершена.")
+	  os.Exit(1)
 	}
-
-	fmt.Print("Все в порядке. " + a + "\n")
+  
+	fmt.Println("Все в порядке. " + a)
 
 	// 	switch op {
 
