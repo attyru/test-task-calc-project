@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 	"regexp"
-
+	"strings"
 	// "math"
 	"os"
 )
-//111
+
 func main() {
 
 	//var res float64
@@ -16,8 +16,10 @@ func main() {
 	fmt.Print("Введите входные данные: ")
 	fmt.Scanln(&a)
 
+	a = strings.ReplaceAll(a, " ", "")
+	
 	// проверка на недопустимые символы
-	matched, _ := regexp.MatchString(`[^0-9,^\+,^\-,^\*,^\/,I,V,X,\ ]`, a) // пустой «приемник» ошибки, ведь мы уверены, что пример отработает нормально
+	matched, _ := regexp.MatchString(`[^0-9,^\+,^\-,^\*,^\/,I,V,X,\ ]`, a)
 
 	if matched {
 		// ошибка
@@ -25,7 +27,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("Все в порядке.")
+	fmt.Print("Все в порядке. " + a + "\n")
 
 	// 	switch op {
 
