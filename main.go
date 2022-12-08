@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
-
 	// "math"
 	"bufio"
 	"os"
@@ -30,6 +29,19 @@ func main() {
 		os.Exit(1)
 	}
 
+	// проверка на двойной операнд
+	if strings.Count(a, "+") > 1 || strings.Count(a, "-") > 1 || strings.Count(a, "*") > 1 || strings.Count(a, "/") > 1 {
+		fmt.Println("Формат математической операции не удовлетворяет заданию — два операнда и один оператор. Работа приложения завершена.")
+		os.Exit(1)
+	}
+
 	fmt.Println("Все в порядке. " + a)
+
+	// цикл по символам в строке
+	for _, s := range a {
+		fmt.Println(s)
+	}
+
+	os.Exit(1)
 
 }
