@@ -12,15 +12,15 @@ import (
 func main() {
 
 	//var res float64
-	fmt.Print("Введите входные данные: ")
+	fmt.Printf("Введите входные данные: ")
 
 	reader := bufio.NewReader(os.Stdin)
 	a, _ := reader.ReadString('\n')
 
 	// чистим пробелы в строке
 	a = strings.TrimSuffix(a, "\n")
-	a = strings.ReplaceAll(a, " ", "")
-
+	a = strings.ReplaceAll(a, " ", "") // как вариант еще нашел интересное решение
+	
 	// проверка на недопустимые символы
 	matched, _ := regexp.MatchString(`[^0-9,^\+,^\-,^\*,^\/,I,V,X,\ ]`, a)
 
@@ -37,9 +37,13 @@ func main() {
 
 	fmt.Println("Все в порядке. " + a)
 
+	reg := regexp.MustCompile(`[\+,\-,\*,\/]`)
+
+	digitSplit := reg.Split(a, -1)
+
 	// цикл по символам в строке
-	for _, s := range a {
-		fmt.Println(s)
+	for _, value := range digitSplit {
+		fmt.Println(value)
 	}
 
 	os.Exit(1)
