@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
-
-	//"strconv"
-	// "math"
+	"strconv"
 	"bufio"
 	"os"
 )
@@ -29,7 +27,7 @@ func main() {
 	// проверка на длину строки (минимум 3, максимум 5)
 	lengt := len(a)
 
-	if lengt < 3 || lengt > 5 {
+	if lengt < 3 || lengt > 9 {
 		fmt.Println("Введены некорректные данные. Работа приложения завершена.")
 		os.Exit(1)	
 	}
@@ -49,9 +47,9 @@ func main() {
 	}
 
 	// проверка на отсутсвие операндов;)
-	matched, _ = regexp.MatchString(`[^\+,^\-,^\*,^\/]`, a)
+	matched, _ = regexp.MatchString(`[\+,\-,\*,\/]`, a)
 	
-	if matched {
+	if !matched {
 		fmt.Println("В выражении отсутствуют операнды. Работа приложения завершена.")
 		os.Exit(1)	
 	}
@@ -79,15 +77,75 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("Все в порядке. " + a)
+	fmt.Println("Все в порядке: " + a)
 
+	// разделяем строку по операнду, получаем операнд в виде символа
+	rCipher := regexp.MustCompile(`[\+,\-,\*,\/]`)
+	rOperand := regexp.MustCompile(`[0-9,I,V,X]`) 
+
+	sOperand := rOperand.Split(a, -1)
+
+	var err error
+	var d[2]int
+
+	fmt.Println("Знак: " + sOperand[1])
+	
+	// мапа для конвертации римских в арабские 
+	nRomanian := map[string]int{"I":1, "II":2, "III":3, "IV":4, "V":5, "VI":6, "VII":7, "VIII":8, "IX":9, "X":10}
+	// например i := nRomanian["VIII"] == 8
+	
+	// цикл по двум числам, с записью в массив, и проверка на вес
+	for n, b := range rCipher.Split(a, -1) {
+			
+		if b == "" {
+			continue
+		}
+
+		if roman {
+			d[n] = nRomanian[b]
+		}else{
+			d[n], err = strconv.Atoi(b)	
+		}
+				
+		if err != nil || d[n] > 10 || d[n] < 1 {
+			fmt.Println("Формат математической операции не удовлетворяет заданию. Работа приложения завершена.")
+			os.Exit(1)
+		}
+		
+	}
+		
+		fmt.Printf("%d \n", d[0])
+		fmt.Printf("%d \n", d[1])
+	
+	// if arabic {
+	// 	for n, value := range a {
+	// 	d, err := strconv.Atoi(string(a[n]))
+			
+	// 	if err != nil {
+	// 	// это операнд
+	// 	}
+	// }
+//}
+	// if string(a[1]) == "0" {
+		
+	// }
 	// цикл по символам в строке
-	// for _, value := range a {
+	// for n, value := range a {
+
 	// 	valuestring = string(value)
+
 	// 	matched, _ := regexp.MatchString(`[^0-9]`, valuestring)
-	//digit, err := strconv.Atoi(valuestring)
-	//	if matched {
-	// тут либо операнд, либо римская цифра, ничего лучше не придумал чем как в свитч затолкать
+	// digit, err := strconv.Atoi(a)
+
+	// if err != nil {
+	// 	fmt.Println("Ошибка в вычислении. Работа приложения завершена.")
+	// 	os.Exit(1)
+	// }
+
+	// fmt.Printf("%d \n", digit)
+
+	// 	if matched {
+	// // тут операнд, ничего лучше не придумал чем как в свитч затолкать
 	// switch {
 	// case string(valuestring) == "+":
 	// 	if valuestringold == valuestring {
@@ -98,10 +156,12 @@ func main() {
 	// 	continue
 	// }
 
-	//valuestringold = valuestring
+	// valuestringold = valuestring
+	
+	// fmt.Printf("%d \n", digit)
+	// }
 
-	//fmt.Printf("%d \n", digit)
-	//}
+	fmt.Println("Работа выполнена")
 
 	os.Exit(1)
 
