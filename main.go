@@ -11,10 +11,10 @@ import (
 
 func main() {
 
-	//var valuestring string
-	//var res float64
+	var res int
 	var matched bool
-	
+	var op string
+
 	fmt.Printf("Введите входные данные: ")
 
 	reader := bufio.NewReader(os.Stdin)
@@ -77,19 +77,20 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("Все в порядке: " + a)
-
 	// разделяем строку по операнду, получаем операнд в виде символа
 	rCipher := regexp.MustCompile(`[\+,\-,\*,\/]`)
 	rOperand := regexp.MustCompile(`[0-9,I,V,X]`) 
 
-	sOperand := rOperand.Split(a, -1)
+	for _, o := range rOperand.Split(a, -1) {
+		if o != "" {
+			op = o
+			break
+		}
+	}
 
 	var err error
 	var d[2]int
 
-	fmt.Println("Знак: " + sOperand[1])
-	
 	// мапа для конвертации римских в арабские 
 	nRomanian := map[string]int{"I":1, "II":2, "III":3, "IV":4, "V":5, "VI":6, "VII":7, "VIII":8, "IX":9, "X":10}
 	// например i := nRomanian["VIII"] == 8
@@ -114,52 +115,19 @@ func main() {
 		
 	}
 		
-		fmt.Printf("%d \n", d[0])
-		fmt.Printf("%d \n", d[1])
-	
-	// if arabic {
-	// 	for n, value := range a {
-	// 	d, err := strconv.Atoi(string(a[n]))
-			
-	// 	if err != nil {
-	// 	// это операнд
-	// 	}
-	// }
-//}
-	// if string(a[1]) == "0" {
-		
-	// }
-	// цикл по символам в строке
-	// for n, value := range a {
+	// вычисляем результат
+	switch op {
+		case "+":
+			res = d[0] + d[1]
+		case "-":
+			res = d[0] - d[1]
+		case "*":
+			res = d[0] * d[1]
+		case "/":
+			res = d[0] / d[1]
+		}
 
-	// 	valuestring = string(value)
-
-	// 	matched, _ := regexp.MatchString(`[^0-9]`, valuestring)
-	// digit, err := strconv.Atoi(a)
-
-	// if err != nil {
-	// 	fmt.Println("Ошибка в вычислении. Работа приложения завершена.")
-	// 	os.Exit(1)
-	// }
-
-	// fmt.Printf("%d \n", digit)
-
-	// 	if matched {
-	// // тут операнд, ничего лучше не придумал чем как в свитч затолкать
-	// switch {
-	// case string(valuestring) == "+":
-	// 	if valuestringold == valuestring {
-
-	// 	}
-
-	// }
-	// 	continue
-	// }
-
-	// valuestringold = valuestring
-	
-	// fmt.Printf("%d \n", digit)
-	// }
+	fmt.Printf("Результат выполнения операции: %d\n", res)
 
 	fmt.Println("Работа выполнена")
 
