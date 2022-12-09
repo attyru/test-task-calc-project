@@ -7,14 +7,11 @@ import (
 	"strconv"
 	"bufio"
 	"os"
+	romannumeral "github.com/brandenc40/romannumeral"
 )
 
 func main() {
-
-	var res int
-	var matched bool
-	var op string
-
+	
 	fmt.Printf("Введите входные данные: ")
 
 	reader := bufio.NewReader(os.Stdin)
@@ -33,6 +30,7 @@ func main() {
 	}
 	
 	// проверка на недопустимые символы
+	var matched bool
 	matched, _ = regexp.MatchString(`[^0-9,^\+,^\-,^\*,^\/,^I,^V,^X]`, a)
 
 	if matched {
@@ -81,6 +79,7 @@ func main() {
 	rCipher := regexp.MustCompile(`[\+,\-,\*,\/]`)
 	rOperand := regexp.MustCompile(`[0-9,I,V,X]`) 
 
+	var op string
 	for _, o := range rOperand.Split(a, -1) {
 		if o != "" {
 			op = o
@@ -91,10 +90,6 @@ func main() {
 	var err error
 	var d[2]int
 
-	// мапа для конвертации римских в арабские 
-	nRomanian := map[string]int{"I":1, "II":2, "III":3, "IV":4, "V":5, "VI":6, "VII":7, "VIII":8, "IX":9, "X":10}
-	// например i := nRomanian["VIII"] == 8
-	
 	// цикл по двум числам, с записью в массив, и проверка на вес
 	for n, b := range rCipher.Split(a, -1) {
 			
@@ -103,7 +98,7 @@ func main() {
 		}
 
 		if roman {
-			d[n] = nRomanian[b]
+			d[n], err = romannumeral.StringToInt(b)
 		}else{
 			d[n], err = strconv.Atoi(b)	
 		}
@@ -116,6 +111,7 @@ func main() {
 	}
 		
 	// вычисляем результат
+	var res int
 	switch op {
 		case "+":
 			res = d[0] + d[1]
@@ -127,7 +123,24 @@ func main() {
 			res = d[0] / d[1]
 		}
 
-	fmt.Printf("Результат выполнения операции: %d\n", res)
+	// проверка на отрицательные римские числа
+	if roman && res < 1 {
+		fmt.Println("Результат вычисления выражения в римских числах не может быть отрицательным. Работа приложения завершена.")
+		os.Exit(1)
+	}
+
+	// Вывод результата
+	if roman {
+		var resR string
+		resR, err = romannumeral.IntToString(res)
+		if err != nil {
+			fmt.Println("Неизвестная ошибка. Работа приложения завершена.")
+			os.Exit(1)
+		}
+		fmt.Printf("Результат выполнения операции: %s\n", resR)
+	}else{
+		fmt.Printf("Результат выполнения операции: %d\n", res)
+	}
 
 	fmt.Println("Работа выполнена")
 
